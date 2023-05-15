@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Password = require('../models/password');
 // import mongoose from 'mongoose';
 

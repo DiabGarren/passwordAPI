@@ -3,6 +3,8 @@ import Resolvers = require('./resolvers');
 import Mutations = require('./mutations');
 import mongoose from 'mongoose';
 
+const PORT = process.env.PORT || 8080;
+
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -33,7 +35,7 @@ const resolvers = {
 };
 
 const server = new ApolloServer({ typeDefs, resolvers });
-server.listen().then(({ url }) => {
+server.listen(PORT).then(({ url }) => {
     console.log(`🚀  Server ready at ${url}`);
 });
 

@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Password = require('../models/password');
 import mongoose from 'mongoose';
 
 export = {
-    createPassword: async (_, { service, username, password }, req) => {
+    createPassword: async (_, { service, username, password }) => {
         console.log(service, username, password);
         try {
             const newPassword = new Password({
