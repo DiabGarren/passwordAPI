@@ -1,0 +1,33 @@
+{
+  "name": "passwordapi",
+  "version": "1.0.0",
+  "description": "API for managing and storing passwords",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
+    "build": "npx tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DiabGarren/passwordAPI.git"
+  },
+  "author": "Garren Diab",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DiabGarren/passwordAPI/issues"
+  },
+  "homepage": "https://github.com/DiabGarren/passwordAPI#readme",
+  "dependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "bcrypt": "^5.1.0",
+    "dotenv": "^16.0.3",
+    "mongoose": "^7.1.1",
+    "typescript": "^5.0.4"
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.1",
+    "nodemon": "^2.0.22"
+  }
+}
