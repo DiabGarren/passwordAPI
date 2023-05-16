@@ -18,12 +18,14 @@ mongoose.connect(process.env.MONGODB_URI)
 mongoose.Promise = global.Promise;
 const typeDefs = gql`
 type Password {
+    _id: String
     service: String
     username: String
     password: String
 }
 type Query {
-    passwords: [Password]
+    getAllPasswords: [Password],
+    getPasswordById(id:String!): [Password]
 }
 type Mutation {
     createPassword(service:String!, username:String!, password:String!): Password!

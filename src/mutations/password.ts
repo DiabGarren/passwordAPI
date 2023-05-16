@@ -18,4 +18,17 @@ export = {
             throw new Error(err.message);
         }
     }
+
+    // deletePassword: async (_, { id }) => {
+    //     console.log(id);
+    //     try {
+    //         const newPassword = new Password({
+    //             _id: new mongoose.Types.ObjectId(id),
+    //         });
+    //         const result = newPassword.deleteOne();
+    //         return result;
+    //     } catch (err: any | unknown) {
+    //         throw new Error(err.message);
+    //     }
+    // }
 }
