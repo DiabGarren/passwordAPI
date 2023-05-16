@@ -12,11 +12,29 @@ export = {
             throw new Error(err.message);
         }
     },
-    getPasswordById: async (_, { id }) => {
+    getPasswordById: async (_, { _id }) => {
         try {
-            const _id = new mongoose.Types.ObjectId(id);
-            const result = await Password.find({ _id: _id });
-            return result;
+            const id = new mongoose.Types.ObjectId(_id);
+            const result = await Password.find({ _id: id });
+            return result[0];
+        } catch (err: any | unknown) {
+            throw new Error(err.message);
+        }
+    },
+    getPasswordByService: async (_, { service }) => {
+        try {
+            const result = await Password.find({ service: service });
+            console.log(result);
+            return result[0];
+        } catch (err: any | unknown) {
+            console.log(err);
+            throw new Error(err);
+        }
+    },
+    getPasswordByUsername: async (_, { username }) => {
+        try {
+            const result = await Password.find({ username: username });
+            return result[0];
         } catch (err: any | unknown) {
             throw new Error(err.message);
         }
