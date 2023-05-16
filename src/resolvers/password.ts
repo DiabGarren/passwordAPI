@@ -1,40 +1,29 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Password = require('../models/password');
+import User = require('../models/user');
 import mongoose from 'mongoose';
-// import mongoose from 'mongoose';
 
 export = {
-    getAllPasswords: async () => {
+    getAllUsers: async () => {
         try {
-            const result = await Password.find({});
+            const result = await User.find({});
             return result;
         } catch (err: any | unknown) {
             throw new Error(err.message);
         }
     },
-    getPasswordById: async (_, { _id }) => {
+    getUserById: async (_, { _id }) => {
         try {
             const id = new mongoose.Types.ObjectId(_id);
-            const result = await Password.find({ _id: id });
-            return result[0];
+            const result = await User.find({ _id: id });
+            return result;
         } catch (err: any | unknown) {
             throw new Error(err.message);
         }
     },
-    getPasswordByService: async (_, { service }) => {
+    getUserByUsername: async (_, { username }) => {
         try {
-            const result = await Password.find({ service: service });
-            console.log(result);
-            return result[0];
-        } catch (err: any | unknown) {
-            console.log(err);
-            throw new Error(err);
-        }
-    },
-    getPasswordByUsername: async (_, { username }) => {
-        try {
-            const result = await Password.find({ username: username });
-            return result[0];
+            const result = await User.find({ username: username });
+            return result;
         } catch (err: any | unknown) {
             throw new Error(err.message);
         }

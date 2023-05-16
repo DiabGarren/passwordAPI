@@ -14,22 +14,20 @@ mongoose.connect(process.env.MONGODB_URI)
 
 mongoose.Promise = global.Promise;
 const typeDefs = gql`
-type Password {
+type User {
     _id: String
-    service: String
     username: String
     password: String
 }
 type Query {
-    getAllPasswords: [Password],
-    getPasswordById(_id:String!): [Password],
-    getPasswordByService(service:String!): [Password],
-    getPasswordByUsername(username:String!): [Password]
+    getAllUsers: [User],
+    getUserById(_id:String!): [User],
+    getUserByUsername(username:String!): [User]
 }
 type Mutation {
-    createPassword(service:String!, username:String!, password:String!): Password!,
-    updatePassword(_id:String!, service:String!, username:String!, password:String!): Password!,
-    deletePassword(_id:String!): Password!
+    createUser(username:String!, password:String!): User!,
+    updateUser(_id:String!, username:String!, password:String!): User!,
+    deleteUser(_id:String!): User!
 }`;
 
 const resolvers = {

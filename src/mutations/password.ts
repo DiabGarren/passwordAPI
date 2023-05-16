@@ -1,51 +1,57 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Password = require('../models/password');
+import User = require('../models/user');
 import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
+
+const hashPassword = async (password: string) => {
+    const hash = await bcrypt.hash(password, 10);
+    return hash;
+};
 
 export = {
-    createPassword: async (_, { service, username, password }) => {
-        console.log(service, username, password);
+    createUser: async (_, { username, password }) => {
         try {
-            const newPassword = new Password({
+            const newPassword = await hashPassword(password);
+            const newUser = new User({
                 _id: new mongoose.Types.ObjectId,
-                service: service,
                 username: username,
-                password: password
+                password: newPassword
             });
-            const result = await newPassword.save();
+            const result = await newUser.save();
             return result;
         } catch (err: any | unknown) {
             throw new Error(err.message);
         }
     },
 
-    updatePassword: async (_, { _id, service, username, password }) => {
+    updateUser: async (_, { _id, username, password }) => {
         try {
             const id = new mongoose.Types.ObjectId(_id);
-            const newPassword = new Password({
+            const newPassword = await hashPassword(password);
+            const newUser = new User({
                 _id: id,
-                service: service,
                 username: username,
-                password: password
+                password: newPassword
             });
-            await Password.replaceOne({ _id: id }, newPassword);
-            return newPassword;
+            await User.replaceOne({ _id: id }, newUser);
+            return newUser;
         } catch (err: any | unknown) {
             throw new Error(err.message);
         }
     },
 
-    deletePassword: async (_, { _id }) => {
+    deleteUser: async (_, { _id }) => {
         try {
             const id = new mongoose.Types.ObjectId(_id);
-            await Password.deleteOne({ _id: id })
+            await User.deleteOne({ _id: id })
                 .then((doc) => {
-                    // console.log(err);
                     if (doc.acknowledged == true) {
                         if (doc.deletedCount > 0) {
-                            console.log('Password deleted successfully');
+                            console.log('User deleted successfully');
+                            return doc.acknowledged;
                         } else {
-                            console.log('Error deleting password');
+                            console.log('Error deleting user');
+                            return doc.deletedCount;
                         }
                     }
                 })
