@@ -1,18 +1,25 @@
-import { ApolloServer, gql } from 'apollo-server';
+import dotenv from 'dotenv';
+dotenv.config();
 import Resolvers = require('./resolvers');
 import Mutations = require('./mutations');
 import mongoose from 'mongoose';
 
+import { ApolloServer, gql } from 'apollo-server-express';
+import express from 'express';
+const app = express();
+
+import routes = require('./routes');
+
 const PORT = process.env.PORT || 8080;
 
-import dotenv from 'dotenv';
-dotenv.config();
+app.set('view engine', 'ejs');
 
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => { console.log('Connected to db'); })
     .catch((err: Error) => { console.log(err.message); });
 
 mongoose.Promise = global.Promise;
+
 const typeDefs = gql`
 type User {
     _id: String
@@ -35,8 +42,20 @@ const resolvers = {
     Mutation: { ...Mutations }
 };
 
-const server = new ApolloServer({ typeDefs, resolvers });
-server.listen(PORT).then(({ url }) => {
-    console.log(`🚀  Server ready at ${url}`);
-});
 
+const startServer = async () => {
+    const server = new ApolloServer({ typeDefs, resolvers });
+    await server.start();
+    server.applyMiddleware({
+        app,
+        path: '/graphql',
+    });
+    app.use('/', routes);
+};
+
+startServer();
+
+
+app.listen({port: PORT}, () => {
+    console.log(`🚀  Server ready at http://localhost:${PORT}/graphql`);
+});
